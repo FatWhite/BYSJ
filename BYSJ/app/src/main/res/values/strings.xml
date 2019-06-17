@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BYSJ</string>
+    <string name="btn_album">查看已有的图文日记</string>
+    <string name="btn_add">增加图文日记</string>
+</resources>
