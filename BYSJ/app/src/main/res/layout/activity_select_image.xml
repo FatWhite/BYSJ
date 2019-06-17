@@ -31,5 +31,12 @@
             android:layout_weight="1"
             android:background="@color/btn_bg"
             android:text="@string/add_tag"/>
+        <Button
+            android:id="@+id/btn_save_tag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/btn_bg"
+            android:text="@string/save_tag"/>
     </LinearLayout>
 </LinearLayout>

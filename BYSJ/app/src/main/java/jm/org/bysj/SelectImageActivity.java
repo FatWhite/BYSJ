@@ -2,6 +2,7 @@ package jm.org.bysj;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 
 import jm.org.bysj.util.FileUtil;
+import jm.org.bysj.util.ImageUtils;
 import jm.org.bysj.view.ILabelView;
 
 /**
@@ -28,6 +30,7 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
     private ImageView imageView;
     private Button btnSelect;
     private Button btnAdd;
+    private Button btnSave;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +43,10 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
         imageView=findViewById(R.id.iv_select_image);
         btnSelect=findViewById(R.id.btn_select);
         btnAdd=findViewById(R.id.btn_add_tag);
+        btnSave=findViewById(R.id.btn_save_tag);
         btnSelect.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
     }
 
     private void selectPhoto() {
@@ -67,14 +72,18 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-           switch (v.getId()){
-               case R.id.btn_select:
-                   selectPhoto();
-                   break;
-               case R.id.btn_add_tag:
-                   ILabelView labelView=new ILabelView(SelectImageActivity.this);
-                   labelView.draw(relativeLayout,500,500);
-                   break;
-           }
+        switch (v.getId()){
+            case R.id.btn_select:
+                selectPhoto();
+                break;
+            case R.id.btn_add_tag:
+                ILabelView labelView=new ILabelView(SelectImageActivity.this);
+                labelView.draw(relativeLayout,500,500);
+                break;
+            case R.id.btn_save_tag:
+                ImageUtils.saveImage(SelectImageActivity.this,relativeLayout);
+                break;
+        }
     }
+
 }
