@@ -7,5 +7,10 @@
     <string name="select_image">选择图片</string>
     <string name="add_tag">添加标签</string>
     <string name="save_tag">保存标签</string>
+    <string name="please_input">请输入日记标题于详情</string>
+    <string name="input_name">请输入标题</string>
+    <string name="input_detail">请输入170字内的简洁日记</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确认</string>
 
 </resources>

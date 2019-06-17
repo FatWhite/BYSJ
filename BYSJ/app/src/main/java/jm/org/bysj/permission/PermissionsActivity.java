@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 import jm.org.bysj.R;
-import jm.org.bysj.util.DialogMsg;
+import jm.org.bysj.view.DialogMsg;
 
 
 public class PermissionsActivity extends Activity {

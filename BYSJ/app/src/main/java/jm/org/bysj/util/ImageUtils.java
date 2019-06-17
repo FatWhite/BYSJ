@@ -3,6 +3,7 @@ package jm.org.bysj.util;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -17,10 +18,10 @@ public class ImageUtils {
     private static final String IMAGE_JPG = "jpg";
     private static final String IMAGE_PNG = "png";
 
-    public static void saveImage(Context context,View view){
+    public static void saveImage(Context context,View view,String name){
         Bitmap bitmap=convertViewToBitmap(view);
         String savePath=getBaseFilePath(context);
-        saveBitmap(bitmap,savePath,100,IMAGE_PNG);
+        saveBitmap(bitmap,savePath,100,IMAGE_PNG,name);
     }
     /**
      * 获取布局截图
@@ -28,12 +29,13 @@ public class ImageUtils {
      * @return
      */
     private static Bitmap convertViewToBitmap(View view){
-        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        view.buildDrawingCache();
-        Bitmap bitmap = view.getDrawingCache();
-        return bitmap;
+        Bitmap shareBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(shareBitmap);
+        view.draw(c);
+
+        return shareBitmap;
     }
 
     /**
@@ -62,16 +64,16 @@ public class ImageUtils {
      *@param ext 文件扩展名
      *@param qulity 文件压缩比例
      * **/
-    private static String saveBitmap(Bitmap bmp, String path,int qulity, String ext) {
+    private static String saveBitmap(Bitmap bmp, String path,int qulity, String ext,String name) {
         String picName;
         File clipDir = new File(path);
         if (!clipDir.exists()) {
             clipDir.mkdirs();
         }
         if (TextUtils.isEmpty(ext)) {
-            picName = System.currentTimeMillis() + ".jpg";
+            picName = name + ".jpg";
         } else {
-            picName = System.currentTimeMillis() + "." + ext;
+            picName = name + "." + ext;
 
         }
         File f = new File(clipDir.getPath(), picName);

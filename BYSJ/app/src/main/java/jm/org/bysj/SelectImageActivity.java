@@ -8,29 +8,45 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jm.org.bysj.Entity.ImageLogs;
+import jm.org.bysj.db.DbSession;
+import jm.org.bysj.db.ImageLogsModels;
+import jm.org.bysj.db.LogsDetailsModels;
 import jm.org.bysj.util.FileUtil;
 import jm.org.bysj.util.ImageUtils;
 import jm.org.bysj.view.ILabelView;
+import jm.org.bysj.view.InputDialog;
 
 /**
  * 选择图片页
  */
-public class SelectImageActivity extends Activity implements View.OnClickListener{
+public class SelectImageActivity extends Activity implements View.OnClickListener,InputDialog.InputDialogListener{
 
     public static final int RC_CHOOSE_PHOTO = 2;
+    public static final String TAG=SelectImageActivity.class.getSimpleName();
 
     private RelativeLayout relativeLayout;
     private ImageView imageView;
     private Button btnSelect;
     private Button btnAdd;
     private Button btnSave;
+    private InputDialog inputDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +55,7 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
     }
 
     private void initView(){
+        inputDialog=new InputDialog(SelectImageActivity.this,R.style.Translucent_Dialog);
         relativeLayout=findViewById(R.id.rl_view);
         imageView=findViewById(R.id.iv_select_image);
         btnSelect=findViewById(R.id.btn_select);
@@ -47,6 +64,7 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
         btnSelect.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
         btnSave.setOnClickListener(this);
+        inputDialog.setInputDialogListener(this);
     }
 
     private void selectPhoto() {
@@ -63,7 +81,6 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
                 Uri uri = data.getData();
                 String filePath = FileUtil.getFilePathByUri(this, uri);
                 if (!TextUtils.isEmpty(filePath)) {
-                    //将照片显示在 ivImage上
                     Glide.with(this).load(filePath).into(imageView);
                 }
                 break;
@@ -77,13 +94,47 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
                 selectPhoto();
                 break;
             case R.id.btn_add_tag:
-                ILabelView labelView=new ILabelView(SelectImageActivity.this);
-                labelView.draw(relativeLayout,500,500);
+                if (!inputDialog.isShowing()){
+                    inputDialog.show();
+                }
                 break;
             case R.id.btn_save_tag:
-                ImageUtils.saveImage(SelectImageActivity.this,relativeLayout);
+                saveImageAndDB();
                 break;
         }
     }
 
+    private void saveImageAndDB(){
+        String name=System.currentTimeMillis()+"";
+        ImageUtils.saveImage(SelectImageActivity.this,relativeLayout,name);
+        List<ImageLogs> imageLogsList=new ArrayList<>();
+        for (int i=0;i<relativeLayout.getChildCount();i++){
+            if (relativeLayout.getChildAt(i) instanceof ILabelView){
+                ImageLogs logs=new ImageLogs();
+                logs.setImageLog(((ILabelView) relativeLayout.getChildAt(i)).getLogName());
+                imageLogsList.add(logs);
+
+                LogsDetailsModels detailsModels=new LogsDetailsModels();
+                detailsModels.setImageName(name);
+                detailsModels.setTagName(((ILabelView) relativeLayout.getChildAt(i)).getLogName());
+                detailsModels.setTagDetail(((ILabelView) relativeLayout.getChildAt(i)).getLogDetal());
+                DbSession.insertImageTextDetail(detailsModels);
+            }
+        }
+        String jsonLogNames=new Gson().toJson(imageLogsList);
+        Log.e(TAG,jsonLogNames);
+        ImageLogsModels imageLogsModels=new ImageLogsModels();
+        imageLogsModels.setName(name);
+        imageLogsModels.setLogsJson(jsonLogNames);
+        DbSession.insertImageTextLogs(imageLogsModels);
+
+    }
+
+    @Override
+    public void returnLogs(String name, String detail) {
+        ILabelView labelView=new ILabelView(SelectImageActivity.this);
+        labelView.setLogName(name);
+        labelView.setLogDetal(detail);
+        labelView.draw(relativeLayout,500,500);
+    }
 }

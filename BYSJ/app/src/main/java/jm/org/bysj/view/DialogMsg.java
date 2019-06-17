@@ -1,4 +1,4 @@
-package jm.org.bysj.util;
+package jm.org.bysj.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

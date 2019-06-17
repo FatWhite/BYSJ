@@ -24,6 +24,10 @@
             android:layout_weight="1"
             android:background="@color/btn_bg"
             android:text="@string/select_image"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#333333"/>
         <Button
             android:id="@+id/btn_add_tag"
             android:layout_width="0dp"
@@ -31,6 +35,10 @@
             android:layout_weight="1"
             android:background="@color/btn_bg"
             android:text="@string/add_tag"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#333333"/>
         <Button
             android:id="@+id/btn_save_tag"
             android:layout_width="0dp"

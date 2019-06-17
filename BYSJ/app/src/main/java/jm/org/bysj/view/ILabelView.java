@@ -42,17 +42,19 @@ public class ILabelView extends RelativeLayout {
     int iconWidth = 0;
     int iconHeight = 0;
     private ArrayList<TextView> aList = new ArrayList<TextView>();
+    private String logName;
+    private String logDetal;
 
     public ILabelView(Context context) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.label_view, this);
-        labelIcon = (ImageView) findViewById(R.id.label_icon);
-        text1 = (TextView) findViewById(R.id.text1);
-        text2 = (TextView) findViewById(R.id.text2);
-        text3 = (TextView) findViewById(R.id.text3);
-        text4 = (TextView) findViewById(R.id.text4);
-        text5 = (TextView) findViewById(R.id.text5);
-        text6 = (TextView) findViewById(R.id.text6);
+        labelIcon =  findViewById(R.id.label_icon);
+        text1 =  findViewById(R.id.text1);
+        text2 = findViewById(R.id.text2);
+        text3 = findViewById(R.id.text3);
+        text4 = findViewById(R.id.text4);
+        text5 = findViewById(R.id.text5);
+        text6 =  findViewById(R.id.text6);
         aList.add(text1);
         aList.add(text2);
         aList.add(text3);
@@ -80,9 +82,9 @@ public class ILabelView extends RelativeLayout {
     public ILabelView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.label_view, this);
-        labelIcon = (ImageView) findViewById(R.id.label_icon);
-        text1 = (TextView) findViewById(R.id.text1);
-        text2 = (TextView) findViewById(R.id.text2);
+        labelIcon = findViewById(R.id.label_icon);
+        text1 = findViewById(R.id.text1);
+        text2 =  findViewById(R.id.text2);
     }
     //初次调用画布局，啦啦啦啦
     public void draw(ViewGroup parent, int mLeft, int mTop) {
@@ -274,5 +276,27 @@ public class ILabelView extends RelativeLayout {
         }
 //        _root.invalidate();
         return true;
+    }
+
+    public String getLogName() {
+        return logName;
+    }
+
+    public void setLogName(String logName) {
+        this.logName = logName;
+        text1.setText(logName);
+        text2.setText(logName);
+        text3.setText(logName);
+        text4.setText(logName);
+        text5.setText(logName);
+        text6.setText(logName);
+    }
+
+    public String getLogDetal() {
+        return logDetal;
+    }
+
+    public void setLogDetal(String logDetal) {
+        this.logDetal = logDetal;
     }
 }
