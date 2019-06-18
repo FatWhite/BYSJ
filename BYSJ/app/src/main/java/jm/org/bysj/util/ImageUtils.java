@@ -13,10 +13,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImageUtils {
-    private static final String IMAGE_JPG = "jpg";
-    private static final String IMAGE_PNG = "png";
+    public static final String IMAGE_JPG = "jpg";
+    public static final String IMAGE_PNG = "png";
 
     public static void saveImage(Context context,View view,String name){
         Bitmap bitmap=convertViewToBitmap(view);
@@ -45,10 +47,16 @@ public class ImageUtils {
      */
     private static String getBaseFilePath(Context context) {
         if (checkSDCard())
-            return Environment.getExternalStorageDirectory().getPath()//获取SD卡--不会随着用户卸载App而删除
-                    + File.separator + "ImageTextLog/Logs";//需要申请写入权限 但是android6.0在写入私有目录和扩展目录的时候需要不需要申请写入权限
+            return  getSDPath();
         else
             return context.getCacheDir().getAbsolutePath();//获取App的私有存储--App的安装目录其他应用无法查看
+    }
+
+    /**
+     * sd卡路径
+     */
+    public static String getSDPath(){
+        return Environment.getExternalStorageDirectory().getPath() + File.separator + "ImageTextLog/Logs";
     }
 
     /**
@@ -94,4 +102,41 @@ public class ImageUtils {
         }
         return f.getPath();
     }
+
+    /**
+     * 从sd卡内获取保存的图片
+     * @return
+     */
+    public static List<String> getImagePathFromSD() {
+        List<String> imagePathList = new ArrayList<String>();
+        String filePath = getSDPath();
+        File fileAll = new File(filePath);
+        File[] files = fileAll.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            File file = files[i];
+            if (checkIsImageFile(file.getPath())) {
+                imagePathList.add(file.getPath());
+            }
+        }
+        return imagePathList;
+    }
+
+    /**
+     * 检查扩展名，得到图片格式的文件
+     * @param fName  文件名
+     * @return
+     */
+    private static boolean checkIsImageFile(String fName) {
+        boolean isImageFile = false;
+        String FileEnd = fName.substring(fName.lastIndexOf(".") + 1,
+                fName.length()).toLowerCase();
+        if (FileEnd.equals("jpg") || FileEnd.equals("png") || FileEnd.equals("gif")
+                || FileEnd.equals("jpeg")|| FileEnd.equals("bmp") ) {
+            isImageFile = true;
+        } else {
+            isImageFile = false;
+        }
+        return isImageFile;
+    }
+
 }

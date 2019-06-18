@@ -115,7 +115,7 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
                 imageLogsList.add(logs);
 
                 LogsDetailsModels detailsModels=new LogsDetailsModels();
-                detailsModels.setImageName(name);
+                detailsModels.setImageName(name+"."+ImageUtils.IMAGE_PNG);
                 detailsModels.setTagName(((ILabelView) relativeLayout.getChildAt(i)).getLogName());
                 detailsModels.setTagDetail(((ILabelView) relativeLayout.getChildAt(i)).getLogDetal());
                 DbSession.insertImageTextDetail(detailsModels);
@@ -124,7 +124,7 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
         String jsonLogNames=new Gson().toJson(imageLogsList);
         Log.e(TAG,jsonLogNames);
         ImageLogsModels imageLogsModels=new ImageLogsModels();
-        imageLogsModels.setName(name);
+        imageLogsModels.setName(name+"."+ImageUtils.IMAGE_PNG);
         imageLogsModels.setLogsJson(jsonLogNames);
         DbSession.insertImageTextLogs(imageLogsModels);
 

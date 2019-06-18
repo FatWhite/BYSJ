@@ -7,6 +7,7 @@ import java.util.List;
 
 import jm.org.bysj.db.gdao.DaoMaster;
 import jm.org.bysj.db.gdao.DaoSession;
+import jm.org.bysj.db.gdao.ImageLogsModelsDao;
 import jm.org.bysj.db.gdao.LogsDetailsModelsDao;
 
 public class DbSession {
@@ -48,6 +49,15 @@ public class DbSession {
     }
 
     /**
+     * 通过名称查询库内图文日志
+     * @param name
+     * @return
+     */
+    public static ImageLogsModels queryLogsByName(String name){
+        return mDaoSession.getImageLogsModelsDao().queryBuilder().where(ImageLogsModelsDao.Properties.Name.eq(name)).unique();
+    }
+
+    /**
      * 插入一个图文日记中的一个log详情
      * @param models
      */
@@ -56,12 +66,13 @@ public class DbSession {
     }
 
     /**
-     * 根据tag name 查询log详情
-     * @param name
+     * 通过图片名称和tag名称查询详情
+     * @param imgName
+     * @param tagName
      * @return
      */
-    public static LogsDetailsModels queryLogsDetail(String name){
-        return mDaoSession.getLogsDetailsModelsDao().queryBuilder().where(LogsDetailsModelsDao.Properties.TagName.eq(name)).unique();
+    public static LogsDetailsModels queryLogsDetail(String imgName,String tagName){
+        return mDaoSession.getLogsDetailsModelsDao().queryBuilder().where(LogsDetailsModelsDao.Properties.ImageName.eq(imgName),LogsDetailsModelsDao.Properties.TagName.eq(tagName)).unique();
     }
 
     /**
