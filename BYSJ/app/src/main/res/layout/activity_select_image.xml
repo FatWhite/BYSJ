@@ -3,6 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <include
+        layout="@layout/layout_title"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"/>
     <RelativeLayout
         android:id="@+id/rl_view"
         android:layout_width="match_parent"
@@ -22,29 +26,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/btn_bg"
+            android:background="@color/btn_bg2"
+            android:textColor="@color/btn_text"
             android:text="@string/select_image"/>
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#333333"/>
+            android:background="@color/btn_text"/>
         <Button
             android:id="@+id/btn_add_tag"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/btn_bg"
+            android:background="@color/btn_bg2"
+            android:textColor="@color/btn_text"
             android:text="@string/add_tag"/>
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#333333"/>
+            android:background="@color/btn_text"/>
         <Button
             android:id="@+id/btn_save_tag"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/btn_bg"
+            android:background="@color/btn_bg2"
+            android:textColor="@color/btn_text"
             android:text="@string/save_tag"/>
     </LinearLayout>
 </LinearLayout>

@@ -27,6 +27,7 @@ import jm.org.bysj.db.DbSession;
 import jm.org.bysj.db.ImageLogsModels;
 import jm.org.bysj.db.LogsDetailsModels;
 import jm.org.bysj.util.ImageUtils;
+import jm.org.bysj.view.DetailDialog;
 
 /**
  * 日记列表也
@@ -37,7 +38,10 @@ public class AlbumActivity extends Activity implements AlbumAdapter.AlbumAdapter
     private ImageView imageView;
     private LinearLayout linearLayout;
     private AlbumAdapter albumAdapter;
-    List<AlbumEntity> albumEntityList=new ArrayList<>();
+    private List<AlbumEntity> albumEntityList=new ArrayList<>();
+    private TextView tvTitle;
+    private ImageView ivBack;
+    private DetailDialog detailDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +50,20 @@ public class AlbumActivity extends Activity implements AlbumAdapter.AlbumAdapter
     }
 
     public void initView(){
+        detailDialog=new DetailDialog(AlbumActivity.this,R.style.Translucent_Dialog);
         recyclerView=findViewById(R.id.rv_image);
         imageView=findViewById(R.id.iv_show_img);
         linearLayout=findViewById(R.id.ll_tag);
+        tvTitle=findViewById(R.id.tv_title);
+        ivBack=findViewById(R.id.iv_back);
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        tvTitle.setText("查看日记");
         albumAdapter=new AlbumAdapter(this,albumEntityList,this);
         recyclerView.setAdapter(albumAdapter);
         imageView.setVisibility(View.GONE);
@@ -110,12 +125,25 @@ public class AlbumActivity extends Activity implements AlbumAdapter.AlbumAdapter
             LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.leftMargin=10;
             layoutParams.rightMargin=10;
-            textView.setPadding(10,10,10,10);
-            textView.setTextColor(Color.BLUE);
-            textView.setTextSize(24);
-            textView.setBackgroundResource(R.color.btn_bg);
+            layoutParams.bottomMargin=10;
+            textView.setPadding(20,10,20,10);
+            textView.setTextColor(AlbumActivity.this.getResources().getColor(R.color.btn_text));
+            textView.setTextSize(20);
+            textView.setBackgroundResource(R.color.btn_bg2);
             textView.setText(entity1.getTag());
+            textView.setTag(entity1.getDetail());
+            textView.setOnClickListener(onClickListener);
             linearLayout.addView(textView,layoutParams);
         }
     }
+
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String detail= (String) v.getTag();
+            if (detailDialog!=null){
+                detailDialog.showDetail(detail);
+            }
+        }
+    };
 }

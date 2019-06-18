@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -21,6 +23,7 @@ import com.google.gson.JsonArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +50,8 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
     private Button btnAdd;
     private Button btnSave;
     private InputDialog inputDialog;
+    private TextView tvTitle;
+    private ImageView ivBack;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +66,11 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
         btnSelect=findViewById(R.id.btn_select);
         btnAdd=findViewById(R.id.btn_add_tag);
         btnSave=findViewById(R.id.btn_save_tag);
+        tvTitle=findViewById(R.id.tv_title);
+        tvTitle.setText("选择图片");
+        ivBack=findViewById(R.id.iv_back);
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(this);
         btnSelect.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
         btnSave.setOnClickListener(this);
@@ -78,10 +88,12 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
 
         switch (requestCode) {
             case RC_CHOOSE_PHOTO:
-                Uri uri = data.getData();
-                String filePath = FileUtil.getFilePathByUri(this, uri);
-                if (!TextUtils.isEmpty(filePath)) {
-                    Glide.with(this).load(filePath).into(imageView);
+                if (data!=null){
+                    Uri uri = data.getData();
+                    String filePath = FileUtil.getFilePathByUri(this, uri);
+                    if (!TextUtils.isEmpty(filePath)) {
+                        Glide.with(this).load(filePath).into(imageView);
+                    }
                 }
                 break;
         }
@@ -100,6 +112,11 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.btn_save_tag:
                 saveImageAndDB();
+                Toast.makeText(SelectImageActivity.this,"记录成功",Toast.LENGTH_SHORT).show();
+                removeTags();
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }
@@ -127,7 +144,14 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
         imageLogsModels.setName(name+"."+ImageUtils.IMAGE_PNG);
         imageLogsModels.setLogsJson(jsonLogNames);
         DbSession.insertImageTextLogs(imageLogsModels);
-
+        Glide.with(this).load(ImageUtils.getSDPath()+ File.separator+name+"."+ImageUtils.IMAGE_PNG).into(imageView);
+    }
+    private void removeTags(){
+        for (int i=0;i<relativeLayout.getChildCount();i++){
+            if (relativeLayout.getChildAt(i) instanceof ILabelView){
+                relativeLayout.removeViewAt(i);
+            }
+        }
     }
 
     @Override

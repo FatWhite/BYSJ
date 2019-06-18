@@ -1,25 +1,26 @@
 package jm.org.bysj;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import jm.org.bysj.permission.CheckPermissionView;
 import jm.org.bysj.permission.PermissionsActivity;
 import jm.org.bysj.permission.PermissionsChecker;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends Activity implements View.OnClickListener{
 
     public static final String TAG=MainActivity.class.getSimpleName();
 
     private Button btnAlbum;
     private Button btnAdd;
+    private TextView tvTitle;
     private static final int PERMISSION_REQUEST_CODE=101;//权限请求码
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView(){
         btnAlbum =findViewById(R.id.btn_album);
         btnAdd=findViewById(R.id.btn_add);
+        tvTitle=findViewById(R.id.tv_title);
+        tvTitle.setText("图文日记");
         btnAlbum.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
     }
