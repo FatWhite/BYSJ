@@ -28,6 +28,7 @@ import jm.org.bysj.db.ImageLogsModels;
 import jm.org.bysj.db.LogsDetailsModels;
 import jm.org.bysj.util.ImageUtils;
 import jm.org.bysj.view.DetailDialog;
+import jm.org.bysj.view.PinchImageView;
 
 /**
  * 日记列表也
@@ -35,7 +36,7 @@ import jm.org.bysj.view.DetailDialog;
 public class AlbumActivity extends Activity implements AlbumAdapter.AlbumAdapterOnclick{
 
     private RecyclerView recyclerView;
-    private ImageView imageView;
+    private PinchImageView imageView;
     private LinearLayout linearLayout;
     private AlbumAdapter albumAdapter;
     private List<AlbumEntity> albumEntityList=new ArrayList<>();
