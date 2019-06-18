@@ -5,6 +5,7 @@
     <string name="str_ok">确定</string>
     <string name="str_cancel">取消</string>
     <string name="select_image">选择图片</string>
+    <string name="take_photo">拍照</string>
     <string name="add_tag">添加标签</string>
     <string name="save_tag">保存标签</string>
     <string name="please_input">请输入日记标题于详情</string>

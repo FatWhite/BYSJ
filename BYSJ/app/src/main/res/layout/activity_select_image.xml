@@ -22,6 +22,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
+            android:id="@+id/btn_take_photo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/btn_bg2"
+            android:textColor="@color/btn_text"
+            android:text="@string/take_photo"/>
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/btn_text"/>
+        <Button
             android:id="@+id/btn_select"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
