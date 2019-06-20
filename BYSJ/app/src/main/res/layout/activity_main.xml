@@ -6,7 +6,16 @@
  <include layout="@layout/layout_title"
      android:layout_height="50dp"
      android:layout_width="match_parent"/>
-
+ <Button
+     android:id="@+id/btn_add"
+     android:layout_width="200dp"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="50dp"
+     android:padding="10dp"
+     android:layout_gravity="center_horizontal"
+     android:background="@color/btn_bg2"
+     android:textColor="@color/btn_text"
+     android:text="@string/btn_add"/>
  <Button
      android:id="@+id/btn_album"
      android:layout_width="200dp"
@@ -17,14 +26,5 @@
      android:textColor="@color/btn_text"
      android:padding="10dp"
      android:text="@string/btn_album"/>
- <Button
-     android:id="@+id/btn_add"
-     android:layout_width="200dp"
-     android:layout_height="wrap_content"
-     android:layout_marginTop="20dp"
-     android:padding="10dp"
-     android:layout_gravity="center_horizontal"
-     android:background="@color/btn_bg2"
-     android:textColor="@color/btn_text"
-     android:text="@string/btn_add"/>
+
 </LinearLayout>

@@ -245,25 +245,32 @@ public class ILabelView extends RelativeLayout {
         }
 
     }
-
+    long times=0;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         final int X = (int) event.getRawX();
         final int Y = (int) event.getRawY();
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
+                times=System.currentTimeMillis();
                 LayoutParams lParams = (LayoutParams) this
                         .getLayoutParams();
                 _xDelta = X - lParams.leftMargin;
                 _yDelta = Y - lParams.topMargin;
                 break;
             case MotionEvent.ACTION_UP:
+                if (System.currentTimeMillis() -times >2*1000){
+                    if (null!=lableOnLongClockListener){
+                        lableOnLongClockListener.longClick(ILabelView.this);
+                    }
+                }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 break;
             case MotionEvent.ACTION_MOVE:
+                times=System.currentTimeMillis();
                 LayoutParams layoutParams = (LayoutParams) this
                         .getLayoutParams();
                 layoutParams.leftMargin = X - _xDelta;
@@ -298,5 +305,14 @@ public class ILabelView extends RelativeLayout {
 
     public void setLogDetal(String logDetal) {
         this.logDetal = logDetal;
+    }
+    private LableOnLongClockListener lableOnLongClockListener;
+
+    public void setLableOnLongClockListener(LableOnLongClockListener lableOnLongClockListener) {
+        this.lableOnLongClockListener = lableOnLongClockListener;
+    }
+
+    public interface LableOnLongClockListener{
+        void longClick(View v);
     }
 }

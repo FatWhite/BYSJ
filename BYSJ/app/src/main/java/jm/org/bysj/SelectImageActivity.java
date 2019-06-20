@@ -1,6 +1,8 @@
 package jm.org.bysj;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -181,7 +183,44 @@ public class SelectImageActivity extends Activity implements View.OnClickListene
     public void returnLogs(String name, String detail) {
         ILabelView labelView=new ILabelView(SelectImageActivity.this);
         labelView.setLogName(name);
+        labelView.setTag(name);
         labelView.setLogDetal(detail);
+        labelView.setLableOnLongClockListener(lableOnLongClockListener);
         labelView.draw(relativeLayout,500,500);
     }
+
+    private ILabelView.LableOnLongClockListener lableOnLongClockListener=new ILabelView.LableOnLongClockListener() {
+        @Override
+        public void longClick(View v) {
+            showNormalDialog(v.getTag().toString());
+        }
+    };
+    private void showNormalDialog(final String tag){
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(SelectImageActivity.this);
+        normalDialog.setTitle("删除日志");
+        normalDialog.setMessage("确定要删除么?");
+        normalDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i=0;i<relativeLayout.getChildCount();i++){
+                            if (relativeLayout.getChildAt(i) instanceof ILabelView){
+                                if (relativeLayout.getChildAt(i).getTag().toString().equals(tag))
+                                    relativeLayout.removeViewAt(i);
+                            }
+                        }
+                    }
+                });
+        normalDialog.setNegativeButton("关闭",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //...To-do
+                    }
+                });
+        // 显示
+        normalDialog.show();
+    }
 }
+
