@@ -270,7 +270,6 @@ public class ILabelView extends RelativeLayout {
             case MotionEvent.ACTION_POINTER_UP:
                 break;
             case MotionEvent.ACTION_MOVE:
-                times=System.currentTimeMillis();
                 LayoutParams layoutParams = (LayoutParams) this
                         .getLayoutParams();
                 layoutParams.leftMargin = X - _xDelta;
@@ -279,6 +278,9 @@ public class ILabelView extends RelativeLayout {
                 layoutParams.bottomMargin = -250;
                 setLayoutParams(layoutParams);
                 updateMarginValue(X - _xDelta,Y - _yDelta);
+                if (Math.abs(X - _xDelta)>20&&Math.abs(Y - _yDelta)>20){
+                    times=System.currentTimeMillis();
+                }
                 break;
         }
 //        _root.invalidate();
